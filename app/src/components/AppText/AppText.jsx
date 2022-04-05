@@ -1,16 +1,17 @@
 import { Text } from "react-native";
 
-function AppText(props) {
+function AppText({ children, style, fontWeight, ...rest }) {
   return (
     <Text
-      {...props}
+      {...rest}
       style={{
-        fontFamily: props.fontWeight || "regular",
+        fontFamily: fontWeight || "regular",
         includeFontPadding: false,
-        ...props.style,
+        color: "#fff",
+        ...style,
       }}
     >
-      {props.children}
+      {children}
     </Text>
   );
 }
