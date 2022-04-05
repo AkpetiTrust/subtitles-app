@@ -7,7 +7,8 @@ function useSearch() {
 
   useEffect(() => {
     if (!searchTerm) return;
-    // TODO: Catch errors
+
+    setSearchData(false);
 
     fetch(
       `https://api.opensubtitles.com/api/v1/subtitles?query=${searchTerm}`,
@@ -21,6 +22,10 @@ function useSearch() {
     )
       .then((response) => response.json())
       .then((result) => {
+        if (!result.data.length) {
+          setSearchData(undefined);
+          return;
+        }
         const related_links = result.data[0].attributes.related_links;
         let image = Array.isArray(related_links)
           ? related_links[0].img_url
@@ -36,8 +41,8 @@ function useSearch() {
 
         setSearchData({ image, items: result });
       })
-      .catch((err) => {
-        console.error(err);
+      .catch(() => {
+        setSearchData("error");
       });
   }, [searchTerm]);
 
