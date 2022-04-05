@@ -3,6 +3,7 @@ import { StyleSheet, StatusBar } from "react-native";
 const styles = StyleSheet.create({
   container: {
     paddingTop: StatusBar.currentHeight + 20,
+    paddingBottom: 90,
   },
   logo: {
     marginLeft: 20,
@@ -10,6 +11,7 @@ const styles = StyleSheet.create({
   },
   main: {
     paddingHorizontal: 40,
+    flex: 1,
   },
   title: {
     marginBottom: 20,

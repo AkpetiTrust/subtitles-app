@@ -4,8 +4,8 @@ import Icon from "./Icon";
 
 function SearchBar(props) {
   return (
-    <View {...props} style={styles.container}>
-      <TextInput style={styles.input}></TextInput>
+    <View style={styles.container}>
+      <TextInput {...props} style={styles.input}></TextInput>
       <Icon style={styles.icon} />
     </View>
   );
