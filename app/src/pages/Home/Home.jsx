@@ -7,9 +7,28 @@ import SearchBar from "../../components/SearchBar/SearchBar";
 import Nav from "../../components/Nav/Nav";
 import useSearch from "../../utils/hooks/useSearch";
 import SearchItems from "../../components/SearchItems/SearchItems";
+import Toast from "../../components/Toast/Toast";
+import { useState, useMemo } from "react";
 
 function Home({ navigation }) {
   const [searchData, setSearchTerm] = useSearch();
+
+  // Toast functions
+  const [toastShown, setToastShown] = useState(false);
+  const [toastMessage, setToastMessage] = useState(
+    "File downloaded successfully. It’s located in your downloads folder."
+  );
+  const [toastId, setToastId] = useState(0);
+
+  const toastFunctions = [setToastMessage, setToastShown, setToastId];
+
+  const memoToast = useMemo(
+    () => <Toast key={toastId} message={toastMessage} />,
+    [toastId]
+  );
+
+  // Id to force re-render on multiple clicks
+  // Memo to prevent unnecessary rerenders
 
   return (
     <View style={[globalStyles.container, styles.container]}>
@@ -23,9 +42,10 @@ function Home({ navigation }) {
             setSearchTerm(e.nativeEvent.text.toLowerCase());
           }}
         />
-        <SearchItems searchData={searchData} />
+        <SearchItems searchData={searchData} toastFunctions={toastFunctions} />
       </View>
       <Nav navigation={navigation} />
+      {toastShown && toastFunctions && memoToast}
     </View>
   );
 }

@@ -36,7 +36,8 @@ function useSearch() {
             release: item.attributes.release,
             movie_name: item.attributes.feature_details.movie_name,
             language: "English",
-            id: item.id,
+            id: item.attributes.files[0].file_id,
+            fps: item.attributes.fps,
           }));
 
         setSearchData({ image, items: result });

@@ -1,4 +1,4 @@
-import { ScrollView, View } from "react-native";
+import { ScrollView, View, FlatList } from "react-native";
 import SearchCard from "../SearchCard/SearchCard";
 import ScalableImage from "./ScalableImage";
 import Loading from "../Loading/Loading";
@@ -6,8 +6,24 @@ import { useState } from "react";
 import AppText from "../AppText/AppText";
 import styles from "./styles";
 
-function SearchItems({ searchData }) {
+function SearchItems({ searchData, toastFunctions }) {
   const [imageWidth, setImageWidth] = useState(150);
+
+  const renderItem = ({ item: { release, language, movie_name, id, fps } }) => {
+    return (
+      <SearchCard
+        key={id}
+        toastFunctions={toastFunctions}
+        searchItem={{
+          release,
+          language,
+          movie_name,
+          id,
+          fps,
+        }}
+      />
+    );
+  };
 
   if (searchData === null) {
     return <ScrollView></ScrollView>;
@@ -31,28 +47,21 @@ function SearchItems({ searchData }) {
     );
   } else {
     return (
-      <ScrollView
+      <FlatList
+        data={searchData.items}
+        renderItem={renderItem}
+        ListHeaderComponent={
+          <ScalableImage
+            uri={searchData.image}
+            width={imageWidth}
+            key={searchData.image}
+          />
+        }
         onContentSizeChange={(width, height) => {
           setImageWidth(width);
         }}
-      >
-        <ScalableImage
-          uri={searchData.image}
-          width={imageWidth}
-          key={searchData.image}
-        />
-        {searchData.items.map(({ release, language, movie_name, id }) => (
-          <SearchCard
-            key={id}
-            searchItem={{
-              release,
-              language,
-              movie_name,
-              id,
-            }}
-          />
-        ))}
-      </ScrollView>
+        keyExtractor={(searchItem) => searchItem.id}
+      />
     );
   }
 }

@@ -1,21 +1,19 @@
-import { View, TouchableOpacity } from "react-native";
+import { View } from "react-native";
 import styles from "./styles";
 import AppText from "../AppText/AppText";
-import Icon from "./Icon";
+import DownloadButton from "./DownloadButton";
 
-function SearchCard({ searchItem: { release, movie_name, language } }) {
+function SearchCard({
+  searchItem: { release, movie_name, language, id, fps },
+  toastFunctions,
+}) {
   return (
     <View style={styles.card}>
       <View style={[styles.row, styles.rowOne]}>
         <AppText style={{ ...styles.column, ...styles.columnOne }}>
           {release}
         </AppText>
-        <TouchableOpacity
-          activeOpacity={0.6}
-          style={{ ...styles.column, ...styles.columnTwo }}
-        >
-          <Icon />
-        </TouchableOpacity>
+        <DownloadButton id={id} toastFunctions={toastFunctions} fps={fps} />
       </View>
       <View style={styles.row}>
         <AppText
