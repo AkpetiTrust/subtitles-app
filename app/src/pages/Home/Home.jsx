@@ -9,18 +9,25 @@ import useSearch from "../../utils/hooks/useSearch";
 import SearchItems from "../../components/SearchItems/SearchItems";
 import { useIsFocused } from "@react-navigation/native";
 import { useEffect } from "react";
+import useStorage from "../../utils/hooks/useStorage";
 
 function Home({ navigation, route }) {
   const [searchData, setSearchTerm, searchTerm] = useSearch();
   const isFocused = useIsFocused();
+  const [, addItem, , refreshItems] = useStorage();
+
   useEffect(() => {
     let term = route?.params?.term;
     if (term) {
       setSearchTerm(term);
+      addItem(term);
     }
 
     // To reset route
     navigation.setParams({ term: "" });
+
+    // Refresh items
+    refreshItems();
   }, [isFocused]);
 
   return (
@@ -33,7 +40,9 @@ function Home({ navigation, route }) {
         <SearchBar
           defaultValue={searchTerm}
           onEndEditing={(e) => {
-            setSearchTerm(e.nativeEvent.text);
+            let text = e.nativeEvent.text;
+            setSearchTerm(text);
+            addItem(text);
           }}
         />
         <SearchItems searchData={searchData} />

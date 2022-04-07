@@ -5,8 +5,11 @@ import AppText from "../../components/AppText/AppText";
 import Logo from "../../components/Logo/Logo";
 import Nav from "../../components/Nav/Nav";
 import RecentItem from "../../components/RecentItem/RecentItem";
+import useStorage from "../../utils/hooks/useStorage";
+import Loading from "../../components/Loading/Loading";
+
 function Recent({ navigation }) {
-  let items = ["The Adam Project", "Red Notice", "Death on the Nile"];
+  const [recentItems, , deleteItem, , loading] = useStorage();
 
   return (
     <View style={[globalStyles.container, styles.container]}>
@@ -15,11 +18,15 @@ function Recent({ navigation }) {
         <AppText style={styles.title} fontWeight="bold">
           Recent searches:
         </AppText>
-        <ScrollView>
-          {items.map((item) => (
-            <RecentItem item={item} key={item} />
-          ))}
-        </ScrollView>
+        {loading ? (
+          <Loading />
+        ) : (
+          <ScrollView>
+            {recentItems.map((item) => (
+              <RecentItem deleteItem={deleteItem} item={item} key={item} />
+            ))}
+          </ScrollView>
+        )}
       </View>
       <Nav navigation={navigation} />
     </View>

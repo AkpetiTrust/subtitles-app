@@ -4,7 +4,7 @@ import styles from "./styles";
 import Icon from "./Icon";
 import { useNavigation } from "@react-navigation/native";
 
-function RecentItem({ item }) {
+function RecentItem({ item, deleteItem }) {
   const navigation = useNavigation();
 
   return (
@@ -12,6 +12,9 @@ function RecentItem({ item }) {
       <TouchableOpacity
         hitSlop={{ top: 8, bottom: 8, right: 0, left: 0 }}
         activeOpacity={0.4}
+        onPress={() => {
+          deleteItem(item);
+        }}
       >
         <Icon style={styles.icon} />
       </TouchableOpacity>
