@@ -6,14 +6,13 @@ import { useState } from "react";
 import AppText from "../AppText/AppText";
 import styles from "./styles";
 
-function SearchItems({ searchData, toastFunctions }) {
+function SearchItems({ searchData }) {
   const [imageWidth, setImageWidth] = useState(150);
 
   const renderItem = ({ item: { release, language, movie_name, id, fps } }) => {
     return (
       <SearchCard
         key={id}
-        toastFunctions={toastFunctions}
         searchItem={{
           release,
           language,

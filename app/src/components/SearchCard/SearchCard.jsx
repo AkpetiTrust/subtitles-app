@@ -5,7 +5,6 @@ import DownloadButton from "./DownloadButton";
 
 function SearchCard({
   searchItem: { release, movie_name, language, id, fps },
-  toastFunctions,
 }) {
   return (
     <View style={styles.card}>
@@ -13,7 +12,7 @@ function SearchCard({
         <AppText style={{ ...styles.column, ...styles.columnOne }}>
           {release}
         </AppText>
-        <DownloadButton id={id} toastFunctions={toastFunctions} fps={fps} />
+        <DownloadButton id={id} fps={fps} release={release} />
       </View>
       <View style={styles.row}>
         <AppText

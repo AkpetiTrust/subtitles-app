@@ -13,8 +13,11 @@ function Nav({ navigation }) {
           activeOpacity={0.5}
           style={styles.iconOne}
           hitSlop={{ top: 20, bottom: 20, left: 20, right: 0 }}
+          onPress={() => {
+            navigation.navigate("Home");
+          }}
         >
-          {name === "Home" ? (
+          {name === "Home" || name === "Download" ? (
             <Svg
               width="20"
               height="20"
@@ -49,7 +52,7 @@ function Nav({ navigation }) {
           activeOpacity={0.5}
           hitSlop={{ top: 20, bottom: 20, left: 0, right: 20 }}
         >
-          {name === "Home" ? (
+          {name === "Home" || name === "Download" ? (
             <Svg
               width="20"
               height="20"
