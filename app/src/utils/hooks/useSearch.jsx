@@ -11,7 +11,7 @@ function useSearch() {
     setSearchData(false);
 
     fetch(
-      `https://api.opensubtitles.com/api/v1/subtitles?query=${searchTerm}`,
+      `https://api.opensubtitles.com/api/v1/subtitles?query=${searchTerm.toLowerCase()}`,
       {
         method: "GET",
         headers: {
@@ -47,7 +47,7 @@ function useSearch() {
       });
   }, [searchTerm]);
 
-  return [searchData, setSearchTerm];
+  return [searchData, setSearchTerm, searchTerm];
 }
 
 export default useSearch;

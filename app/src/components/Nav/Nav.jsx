@@ -50,6 +50,9 @@ function Nav({ navigation }) {
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={0.5}
+          onPress={() => {
+            navigation.navigate("Recent");
+          }}
           hitSlop={{ top: 20, bottom: 20, left: 0, right: 20 }}
         >
           {name === "Home" || name === "Download" ? (

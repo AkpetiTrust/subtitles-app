@@ -5,7 +5,7 @@ import Icon from "./Icon";
 function SearchBar(props) {
   return (
     <View style={styles.container}>
-      <TextInput {...props} style={styles.input}></TextInput>
+      <TextInput {...props} autoFocus={true} style={styles.input}></TextInput>
       <Icon style={styles.icon} />
     </View>
   );

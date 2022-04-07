@@ -3,6 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "./app/src/pages/Home/Home";
 import Download from "./app/src/pages/Download/Download";
+import Recent from "./app/src/pages/Recent/Recent";
 import { useState } from "react";
 import AppLoading from "expo-app-loading";
 
@@ -31,6 +32,7 @@ export default function App() {
       >
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Download" component={Download} />
+        <Stack.Screen name="Recent" component={Recent} />
       </Stack.Navigator>
     </NavigationContainer>
   ) : (

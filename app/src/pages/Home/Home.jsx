@@ -7,9 +7,21 @@ import SearchBar from "../../components/SearchBar/SearchBar";
 import Nav from "../../components/Nav/Nav";
 import useSearch from "../../utils/hooks/useSearch";
 import SearchItems from "../../components/SearchItems/SearchItems";
+import { useIsFocused } from "@react-navigation/native";
+import { useEffect } from "react";
 
-function Home({ navigation }) {
-  const [searchData, setSearchTerm] = useSearch();
+function Home({ navigation, route }) {
+  const [searchData, setSearchTerm, searchTerm] = useSearch();
+  const isFocused = useIsFocused();
+  useEffect(() => {
+    let term = route?.params?.term;
+    if (term) {
+      setSearchTerm(term);
+    }
+
+    // To reset route
+    navigation.setParams({ term: "" });
+  }, [isFocused]);
 
   return (
     <View style={[globalStyles.container, styles.container]}>
@@ -19,8 +31,9 @@ function Home({ navigation }) {
           What movie do you need subtitles for?
         </AppText>
         <SearchBar
+          defaultValue={searchTerm}
           onEndEditing={(e) => {
-            setSearchTerm(e.nativeEvent.text.toLowerCase());
+            setSearchTerm(e.nativeEvent.text);
           }}
         />
         <SearchItems searchData={searchData} />
