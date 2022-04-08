@@ -4,12 +4,11 @@ import styles from "./styles";
 import AppText from "../../components/AppText/AppText";
 import Logo from "../../components/Logo/Logo";
 import Nav from "../../components/Nav/Nav";
-import * as MediaLibrary from "expo-media-library";
-import * as FileSystem from "expo-file-system";
 import { useEffect, useState } from "react";
 import Loading from "../../components/Loading/Loading";
 import Downloading from "./Illustrations/Downloading";
 import Downloaded from "./Illustrations/Downloaded";
+import * as WebBrowser from "expo-web-browser";
 
 function Download({
   navigation,
@@ -18,45 +17,8 @@ function Download({
   },
 }) {
   const [loading, setLoading] = useState(true);
-  const [downloadLocation, setDownloadLocation] = useState("");
 
   const apiKey = "yGdLhGNF0uSsCtyBLW2X3uHDKvA33hHs";
-
-  const saveFile = async (fileUri) => {
-    const { status } = await MediaLibrary.requestPermissionsAsync();
-    if (status === "granted") {
-      const asset = await MediaLibrary.createAssetAsync(fileUri);
-      let assetUri = asset.uri;
-      assetUri = assetUri.slice(
-        "file:///".length,
-        assetUri.length - release.length - 4
-      );
-
-      // To make sure the last character is a forward slash
-      let formattedProperly = false;
-      while (!formattedProperly) {
-        let lastIndex = assetUri.length - 1;
-        if (assetUri[lastIndex] === "/") {
-          formattedProperly = true;
-          break;
-        }
-        assetUri = assetUri.slice(0, lastIndex);
-      }
-
-      setDownloadLocation(assetUri);
-      setLoading(false);
-    }
-  };
-
-  const downloadFile = (link, fileUri) => {
-    FileSystem.downloadAsync(link, fileUri)
-      .then(({ uri }) => {
-        saveFile(uri);
-      })
-      .catch(() => {
-        navigation.goBack();
-      });
-  };
 
   const body = JSON.stringify({
     file_id: id,
@@ -65,7 +27,7 @@ function Download({
     in_fps: fps,
     out_fps: fps,
     timeshift: 0,
-    force_download: true,
+    force_download: 1,
   });
 
   useEffect(() => {
@@ -81,8 +43,9 @@ function Download({
       .then((response) => response.json())
       .then((result) => {
         const link = result.link;
-        let fileUri = FileSystem.documentDirectory + `${release}.srt`;
-        downloadFile(link, fileUri);
+        WebBrowser.openBrowserAsync(link).then(() => {
+          setLoading(false);
+        });
       })
       .catch(() => {
         navigation.goBack();
@@ -104,11 +67,7 @@ function Download({
       </AppText>
       <Downloaded style={styles.illustration} />
       <View>
-        <AppText>You can locate your file in this folder:</AppText>
-        <AppText style={styles.path} fontWeight="bold">
-          {downloadLocation}
-        </AppText>
-        <AppText>This is the DCIM folder in your internal storage.</AppText>
+        <AppText>You can locate your file in your downloads.</AppText>
       </View>
     </View>
   );

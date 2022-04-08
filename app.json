@@ -21,7 +21,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./app/assets/adaptive-icon.png",
         "backgroundColor": "#1F2B4A"
-      }
+      },
+      "package": "com.akpeti_trust.SubtitleApp"
     }
   }
 }
